@@ -1,0 +1,28 @@
+name: Azure Compliance Scan with azqr
+
+on: [push]
+
+jobs:
+  azqr_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Environment Variables
+        run: |
+          echo "AZURE_CLIENT_ID=dae47e67-06d9-4758-8463-d67e40bf1101" >> $GITHUB_ENV
+          echo "AZURE_CLIENT_SECRET=P_38Q~3MXBtfCvnlpi2Jk13c6t-PSo3r5t82saJx" >> $GITHUB_ENV
+          echo "AZURE_TENANT_ID=832b0908-3585-4294-a01c-7763fc195006" >> $GITHUB_ENV
+
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Install azqr
+        run: |
+          latest_azqr=$(curl -sL https://api.github.com/repos/Azure/azqr/releases/latest | jq -r ".tag_name" | cut -c1-)
+          wget https://github.com/Azure/azqr/releases/download/$latest_azqr/azqr-ubuntu-latest-amd64 -O azqr
+          chmod +x azqr
+
+      - name: Run azqr Scan
+        run: ./azqr scan
