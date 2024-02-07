@@ -27,12 +27,14 @@ jobs:
       - name: Run azqr Scan
         run: |
           ./azqr scan
-          # Assuming the report is named in a predictable way and placed in the current working directory
-          # Adjust the command to move or rename the report to a known filename if needed
           mv azqr_report_*.xlsx azqr_report.xlsx
+
+      - name: List files
+        run: ls -l
 
       - name: Upload Scan Report
         uses: actions/upload-artifact@v3
         with:
           name: azqr-scan-report
           path: azqr_report.xlsx
+
