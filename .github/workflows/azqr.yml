@@ -26,7 +26,7 @@ jobs:
 
       - name: Run azqr Scan
         run: |
-          ./azqr scan
+          ./azqr scan -s 78d2bc54-6618-4494-bf06-41cba8aaa6a2
           mv azqr_report_*.xlsx azqr_report.xlsx
 
       - name: List files
